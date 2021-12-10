@@ -1,0 +1,2 @@
+osMapTLB = 0x802018B0; // type:func
+MapTLB = 0x8020008C; // type:func

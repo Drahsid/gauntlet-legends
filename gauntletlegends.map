@@ -1,0 +1,232 @@
+
+Discarded input sections
+
+ .text          0x0000000000000000        0x0 build/asm/header.s.o
+ .bss           0x0000000000000000        0x0 build/asm/header.s.o
+ .reginfo       0x0000000000000000       0x18 build/asm/header.s.o
+ .MIPS.abiflags
+                0x0000000000000000       0x18 build/asm/header.s.o
+ .pdr           0x0000000000000000        0x0 build/asm/header.s.o
+ .gnu.attributes
+                0x0000000000000000       0x10 build/asm/header.s.o
+ .data          0x0000000000000000        0x0 build/src/asm/entrypoint.s.o
+ .bss           0x0000000000000000        0x0 build/src/asm/entrypoint.s.o
+ .reginfo       0x0000000000000000       0x18 build/src/asm/entrypoint.s.o
+ .MIPS.abiflags
+                0x0000000000000000       0x18 build/src/asm/entrypoint.s.o
+ .pdr           0x0000000000000000        0x0 build/src/asm/entrypoint.s.o
+ .gnu.attributes
+                0x0000000000000000       0x10 build/src/asm/entrypoint.s.o
+ .data          0x0000000000000000        0x0 build/src/1050.c.o
+ .bss           0x0000000000000000        0x0 build/src/1050.c.o
+ .reginfo       0x0000000000000000       0x18 build/src/1050.c.o
+ .MIPS.abiflags
+                0x0000000000000000       0x18 build/src/1050.c.o
+ .pdr           0x0000000000000000       0x60 build/src/1050.c.o
+ .gnu.attributes
+                0x0000000000000000       0x10 build/src/1050.c.o
+ .text          0x0000000000000000        0x0 build/asm/data/12B0.data.s.o
+ .bss           0x0000000000000000        0x0 build/asm/data/12B0.data.s.o
+ .reginfo       0x0000000000000000       0x18 build/asm/data/12B0.data.s.o
+ .MIPS.abiflags
+                0x0000000000000000       0x18 build/asm/data/12B0.data.s.o
+ .pdr           0x0000000000000000        0x0 build/asm/data/12B0.data.s.o
+ .gnu.attributes
+                0x0000000000000000       0x10 build/asm/data/12B0.data.s.o
+ .data          0x0000000000000000        0x0 build/src/deflate.c.o
+ .bss           0x0000000000000000        0x0 build/src/deflate.c.o
+ .reginfo       0x0000000000000000       0x18 build/src/deflate.c.o
+ .MIPS.abiflags
+                0x0000000000000000       0x18 build/src/deflate.c.o
+ .pdr           0x0000000000000000      0x140 build/src/deflate.c.o
+ .gnu.attributes
+                0x0000000000000000       0x10 build/src/deflate.c.o
+ .text          0x0000000000000000        0x0 build/asm/data/2734.data.s.o
+ .bss           0x0000000000000000        0x0 build/asm/data/2734.data.s.o
+ .reginfo       0x0000000000000000       0x18 build/asm/data/2734.data.s.o
+ .MIPS.abiflags
+                0x0000000000000000       0x18 build/asm/data/2734.data.s.o
+ .pdr           0x0000000000000000        0x0 build/asm/data/2734.data.s.o
+ .gnu.attributes
+                0x0000000000000000       0x10 build/asm/data/2734.data.s.o
+ .data          0x0000000000000000        0x0 build/asm/libultra/maptlb.s.s.o
+ .bss           0x0000000000000000        0x0 build/asm/libultra/maptlb.s.s.o
+ .reginfo       0x0000000000000000       0x18 build/asm/libultra/maptlb.s.s.o
+ .MIPS.abiflags
+                0x0000000000000000       0x18 build/asm/libultra/maptlb.s.s.o
+ .pdr           0x0000000000000000        0x0 build/asm/libultra/maptlb.s.s.o
+ .gnu.attributes
+                0x0000000000000000       0x10 build/asm/libultra/maptlb.s.s.o
+ .text          0x0000000000000000        0x0 build/asm/data/2970.data.s.o
+ .bss           0x0000000000000000        0x0 build/asm/data/2970.data.s.o
+ .reginfo       0x0000000000000000       0x18 build/asm/data/2970.data.s.o
+ .MIPS.abiflags
+                0x0000000000000000       0x18 build/asm/data/2970.data.s.o
+ .pdr           0x0000000000000000        0x0 build/asm/data/2970.data.s.o
+ .gnu.attributes
+                0x0000000000000000       0x10 build/asm/data/2970.data.s.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD build/asm/header.s.o
+LOAD build/assets/boot.bin.o
+LOAD build/src/asm/entrypoint.s.o
+LOAD build/src/1050.c.o
+LOAD build/asm/data/12B0.data.s.o
+LOAD build/src/deflate.c.o
+LOAD build/asm/data/2734.data.s.o
+LOAD build/asm/libultra/maptlb.s.s.o
+LOAD build/asm/data/2970.data.s.o
+LOAD build/assets/29A0.bin.o
+LOAD build/assets/trailer.bin.o
+                0x0000000001000000                __romPos = 0x0
+                0x0000000001000000                . = __romPos
+                0x0000000000000000                header_ROM_START = __romPos
+                0x0000000000000000                header_VRAM = ADDR (.header)
+
+.header         0x0000000000000000       0x40
+                0x0000000000000000                header_TEXT_START = .
+                0x0000000000000000                header_TEXT_END = .
+                0x0000000000000000                header_DATA_START = .
+                0x0000000000000000                header_s = .
+ build/asm/header.s.o(.data)
+ .data          0x0000000000000000       0x40 build/asm/header.s.o
+                0x0000000000000040                header_DATA_END = .
+                0x0000000000000040                header_BSS_START = .
+                0x0000000000000040                header_BSS_END = .
+                0x0000000000000040                header_ROM_END = 0x40
+                0x0000000001000000                __romPos = 0x40
+                0x0000000001000000                __romPos = 0x40
+                0x0000000001000000                . = __romPos
+                0x0000000000000040                boot_ROM_START = __romPos
+                0x0000000000000040                boot_VRAM = ADDR (.boot)
+
+.boot           0x0000000000000040      0xfc0
+                0x0000000000000040                boot_TEXT_START = .
+                0x0000000000000040                boot_TEXT_END = .
+                0x0000000000000040                boot_DATA_START = .
+                0x0000000000000040                boot_bin = .
+ build/assets/boot.bin.o(.data)
+ .data          0x0000000000000040      0xfc0 build/assets/boot.bin.o
+                0x0000000000000040                _binary_assets_boot_bin_start
+                0x0000000000001000                _binary_assets_boot_bin_end
+                0x0000000000001000                boot_DATA_END = .
+                0x0000000000001000                boot_BSS_START = .
+                0x0000000000001000                boot_BSS_END = .
+                0x0000000000001000                boot_ROM_END = 0x1000
+                0x0000000001000000                __romPos = 0x1000
+                0x0000000001000000                __romPos = 0x1000
+                0x0000000001000000                . = __romPos
+                0x0000000000001000                main_ROM_START = __romPos
+                0x0000000080200000                main_VRAM = ADDR (.main)
+
+.main           0x0000000080200000     0x1740 load address 0x0000000000001000
+                0x0000000080200000                main_TEXT_START = .
+ build/src/asm/entrypoint.s.o(.text)
+ .text          0x0000000080200000       0x50 build/src/asm/entrypoint.s.o
+                0x0000000080200000                func_80200000
+ build/src/1050.c.o(.text)
+ .text          0x0000000080200050      0x260 build/src/1050.c.o
+                0x0000000080200050                func_80200050
+                0x000000008020008c                MapTLB
+                0x000000008020010c                func_8020010C
+                0x00000000802002b0                main_TEXT_END = .
+                0x00000000802002b0                main_DATA_START = .
+                0x00000000802002b0                _12B0_data__s = .
+ build/asm/data/12B0.data.s.o(.data)
+ .data          0x00000000802002b0      0x1e0 build/asm/data/12B0.data.s.o
+                0x00000000802002b0                D_802002B0
+                0x00000000802002c4                D_802002C4
+                0x0000000080200490                main_DATA_END = .
+ build/src/deflate.c.o(.text)
+ .text          0x0000000080200490     0x12b0 build/src/deflate.c.o
+                0x0000000080200490                func_80200490
+                0x00000000802004ac                func_802004AC
+                0x00000000802004d4                func_802004D4
+                0x0000000080200a3c                func_80200A3C
+                0x0000000080200d68                func_80200D68
+                0x0000000080200ea0                func_80200EA0
+                0x0000000080201038                func_80201038
+                0x00000000802015b0                func_802015B0
+                0x00000000802016a4                func_802016A4
+                0x00000000802016e4                func_802016E4
+                0x0000000001000000                __romPos = 0x2734
+                0x0000000001000000                . = __romPos
+                0x0000000000002734                main_2734data_ROM_START = __romPos
+                0x0000000080201734                main_2734data_VRAM = ADDR (.main_2734data)
+
+.main_2734data  0x0000000080201734      0x180 load address 0x0000000000002734
+                0x0000000080201734                _2734_data__s = .
+ build/asm/data/2734.data.s.o(.data)
+ .data          0x0000000080201734      0x180 build/asm/data/2734.data.s.o
+                0x0000000080201734                D_80201734
+                0x0000000080201780                D_80201780
+                0x00000000802017c0                D_802017C0
+                0x0000000080201800                D_80201800
+                0x000000008020183c                D_8020183C
+                0x0000000080201878                D_80201878
+                0x000000008020189c                D_8020189C
+                0x00000000802018a0                D_802018A0
+                0x0000000001000000                __romPos = 0x28b0
+                0x0000000001000000                . = __romPos
+                0x00000000000028b0                main_libultra_maptlb_sasm_ROM_START = __romPos
+                0x00000000802018b0                main_libultra_maptlb_sasm_VRAM = ADDR (.main_libultra_maptlb_sasm)
+
+.main_libultra_maptlb_sasm
+                0x00000000802018b0   0xf9e3cc load address 0x00000000000028b0
+ build/asm/libultra/maptlb.s.s.o(.text)
+ .text          0x00000000802018b0       0xc0 build/asm/libultra/maptlb.s.s.o
+                0x00000000802018b0                osMapTLB
+                0x0000000080201970                _2970_data__s = .
+ build/asm/data/2970.data.s.o(.data)
+ .data          0x0000000080201970       0x30 build/asm/data/2970.data.s.o
+                0x0000000080201970                D_80201970
+                0x0000000080201980                D_80201980
+                0x0000000080201984                D_80201984
+                0x0000000080201988                D_80201988
+                0x000000008020198c                D_8020198C
+                0x0000000080201990                D_80201990
+                0x0000000080201994                D_80201994
+                0x0000000080201998                D_80201998
+                0x00000000802019a0                _29A0_bin = .
+ build/assets/29A0.bin.o(.data)
+ .data          0x00000000802019a0   0xf9e2dc build/assets/29A0.bin.o
+                0x00000000802019a0                _binary_assets_29A0_bin_start
+                0x000000008119fc7c                _binary_assets_29A0_bin_end
+                0x000000008119fc7c                main_BSS_START = .
+                0x000000008119fc7c                main_BSS_END = .
+                0x0000000000fa0c7c                main_ROM_END = 0xfa0c7c
+                0x0000000001000000                __romPos = 0xfa0c7c
+                0x0000000001000000                __romPos = 0xfa0c7c
+                0x0000000001000000                . = __romPos
+                0x0000000000fa0c7c                trailer_ROM_START = __romPos
+                0x0000000000fa0c80                trailer_VRAM = ADDR (.trailer)
+
+.trailer        0x0000000000fa0c80    0x5f384 load address 0x0000000000fa0c7c
+                0x0000000000fa0c80                trailer_TEXT_START = .
+                0x0000000000fa0c80                trailer_TEXT_END = .
+                0x0000000000fa0c80                trailer_DATA_START = .
+                0x0000000000fa0c80                trailer_bin = .
+ build/assets/trailer.bin.o(.data)
+ *fill*         0x0000000000fa0c80        0x0 
+ .data          0x0000000000fa0c80    0x5f384 build/assets/trailer.bin.o
+                0x0000000000fa0c80                _binary_assets_trailer_bin_start
+                0x0000000001000004                _binary_assets_trailer_bin_end
+                0x0000000001000004                trailer_DATA_END = .
+                0x0000000001000004                trailer_BSS_START = .
+                0x0000000001000004                trailer_BSS_END = .
+                0x0000000001000000                trailer_ROM_END = 0x1000000
+                0x0000000001000000                __romPos = 0x1000000
+
+/DISCARD/
+ *(*)
+                0x000000008020010c                D_8020010C = 0x8020010c
+                0x00000000802039a0                D_802039A0 = 0x802039a0
+                0x00000000e01301c0                D_E01301C0 = 0xe01301c0
+                0x0000000080002850                func_80002850 = 0x80002850
+OUTPUT(build/gauntletlegends.elf elf32-tradbigmips)
