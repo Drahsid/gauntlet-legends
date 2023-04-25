@@ -3,8 +3,8 @@
 *.out
 *.ld
 
-undefined_funcs_auto.txt
-undefined_syms_auto.txt
+files/syms/*auto.txt
+files/syms/symbol_addrs.*
 
 asm/
 assets/
@@ -13,10 +13,14 @@ expected/
 nonmatchings/
 __pycache__/
 expected/
-
-.vscode
+.vscode/
 
 tools/n64crc
 
 ctx_includes.c
 ctx.c
+
+progress.csv
+
+build.ninja
+.ninja*
