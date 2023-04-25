@@ -1,0 +1,39 @@
+name: Boss
+sha1: 541e768be1a14d143b735e8129233fd9a878f639
+options:
+  basename: Boss
+  target_path: files/Boss
+  base_path: .
+  compiler: GCC
+  header_encoding: ASCII
+  platform: n64
+  asm_inc_header: ""
+  find_file_boundaries: True
+  use_legacy_include_asm: False
+  create_asm_dependencies: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  #mips_abi_float_regs: o32
+  do_c_func_detection: True
+  asset_path: assets/Boss
+  asm_path: asm/Boss
+  src_path: src/Boss
+  build_path: build/Boss
+  undefined_funcs_auto_path: files/syms/undefined_funcs_auto.Boss.txt
+  undefined_syms_auto_path: files/syms/undefined_syms_auto.Boss.txt
+  symbol_addrs_path: files/syms/symbol_addrs.Boss.txt
+  subalign: 4
+  ld_use_follows: False
+segments:
+  - name: main
+    type: code
+    start: 0x00
+    vram: 0xE0880000
+    overlay: True
+    symbol_name_format: Boss_$VRAM
+    subalign: 4
+    subsegments:
+      - [0x0000, asm]
+      - [0xDF20, data]
+  - [0xE4F0]

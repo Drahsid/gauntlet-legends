@@ -1,0 +1,3 @@
+MapTLB = 0x8020008C;
+osMapTLB = 0x802018B0;
+strcmp = 0x80200050;

@@ -6,6 +6,11 @@
 files/syms/*auto.txt
 files/syms/symbol_addrs.*
 
+files/Boss
+files/game
+files/Tower
+files/Transitions
+
 asm/
 assets/
 build/

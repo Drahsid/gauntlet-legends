@@ -1,0 +1,84 @@
+ninja_required_version = 1.10
+
+BUILD_DIR = build/boot
+
+# Tools
+TOOLS_DIR = tools
+
+CC = COMPILER_PATH=${TOOLS_DIR}/kmc ${TOOLS_DIR}/kmc/gcc
+CC_CHECK = gcc
+CPP = cpp
+
+CROSS = mips-linux-gnu-
+AS = ${CROSS}as
+LD = ${CROSS}ld
+OBJDUMP = ${CROSS}objdump
+OBJCOPY = ${CROSS}objcopy
+STRIP = ${CROSS}strip
+
+# System specific tools
+PYTHON = PYTHON_VALUE
+
+# Variables
+AS_FLAGS = -EB -mtune=vr4300 -march=vr4300 -mabi=32 -32 -I include
+C_FLAGS = -nostdinc -G 0 -mips3 -mgp32 -mfp32 -w
+C_FLAGS_INCLUDE = -I. -Iinclude -Iultralib/include
+CC_CHECK_FLAGS = -fsyntax-only -fsigned-char -m32 -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-main -Wno-builtin-declaration-mismatch -Wno-pointer-sign -Werror=implicit-function-declaration -DAVOID_UB -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
+D_FLAGS = -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MIPS_SZLONG=32 -D__USE_ISOC99 -DNDEBUG -D_FINALROM
+OPT_FLAGS = -O2 
+OBJCOPY_FLAGS = -O binary
+
+LD_FLAGS_COMMON0        = -T files/syms/undefined_syms_auto.boot.txt -T files/syms/undefined_funcs_auto.boot.txt -T files/syms/undefined_funcs.boot.txt -T files/syms/undefined_syms.boot.txt
+LD_FLAGS_COMMON1        = -T files/syms/undefined_syms_auto.game.txt -T files/syms/undefined_funcs_auto.game.txt -T files/syms/undefined_funcs.game.txt -T files/syms/undefined_syms.game.txt --no-check-sections
+LD_FLAGS_COMMON         = $LD_FLAGS_COMMON0 $LD_FLAGS_COMMON1 --no-check-sections
+LD_FLAGS_BOOT           = -T __BASENAME__.ld -Map build/__BASENAME__.map $LD_FLAGS_COMMON0
+LD_FLAGS_GAME           = -T game.ld -Map build/game.map $LD_FLAGS_COMMON
+LD_FLAGS_TOWER          = -T Tower.ld -Map build/Tower.map -T files/syms/undefined_syms_auto.Tower.txt -T files/syms/undefined_funcs_auto.Tower.txt -T files/syms/undefined_funcs.Tower.txt -T files/syms/undefined_syms.Tower.txt $LD_FLAGS_COMMON
+LD_FLAGS_TRANSITIONS    = -T Transitions.ld -Map build/Transitions.map -T files/syms/undefined_syms_auto.Transitions.txt -T files/syms/undefined_funcs_auto.Transitions.txt -T files/syms/undefined_funcs.Transitions.txt -T files/syms/undefined_syms.Transitions.txt $LD_FLAGS_COMMON
+LD_FLAGS_BOSS           = -T Boss.ld -Map build/Boss.map -T files/syms/undefined_syms_auto.Boss.txt -T files/syms/undefined_funcs_auto.Boss.txt -T files/syms/undefined_funcs.Boss.txt -T files/syms/undefined_syms.Boss.txt $LD_FLAGS_COMMON
+
+rule compile_c_cpp
+    command = $CC_CHECK $CC_CHECK_FLAGS $D_FLAGS $C_FLAGS_INCLUDE -MMD -MP -MT ${BUILD_DIR}/${in}.o -MF $out $in
+    description = Compiling $in... (Syntax)
+
+rule compile_c
+    command = $CC -c $C_FLAGS $OPT_FLAGS $D_FLAGS $C_FLAGS_INCLUDE -o $out $in
+    description = Compiling $in...
+
+rule compile_c_strip
+    command = $STRIP -o $out $in -N dummy-symbol-name
+    description = Compiling $in... (Strip)
+
+rule assemble_s
+    command = $AS $AS_FLAGS -o $out $in
+    description = Assembling $in...
+
+rule compile_bin
+    command = $LD -r -b binary -o $out $in
+    description = Compiling $in...
+
+rule link_boot
+    command = $LD $LD_FLAGS_BOOT -o $out $in
+    description = Linking $out...
+
+rule link_Tower
+    command = $LD $LD_FLAGS_TOWER -o $out $in
+    description = Linking $out...
+
+rule link_Transitions
+    command = $LD $LD_FLAGS_TRANSITIONS -o $out $in
+    description = Linking $out...
+
+rule link_Boss
+    command = $LD $LD_FLAGS_BOSS -o $out $in
+    description = Linking $out...
+
+rule link_game
+    command = $LD $LD_FLAGS_GAME -o $out $in
+    description = Linking $out...
+
+rule objcopy
+    command = $OBJCOPY $OBJCOPY_FLAGS $in $out
+    description = Creating $out...
+
+

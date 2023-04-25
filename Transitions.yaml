@@ -1,0 +1,41 @@
+name: Transitions
+sha1: 12b216d55c9dbfe141e76263abdfcbee5e60b4aa
+options:
+  basename: Transitions
+  target_path: files/Transitions
+  base_path: .
+  compiler: GCC
+  header_encoding: ASCII
+  platform: n64
+  asm_inc_header: ""
+  find_file_boundaries: True
+  use_legacy_include_asm: False
+  create_asm_dependencies: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  #mips_abi_float_regs: o32
+  do_c_func_detection: True
+  asset_path: assets/Transitions
+  asm_path: asm/Transitions
+  src_path: src/Transitions
+  build_path: build/Transitions
+  undefined_funcs_auto_path: files/syms/undefined_funcs_auto.Transitions.txt
+  undefined_syms_auto_path: files/syms/undefined_syms_auto.Transitions.txt
+  symbol_addrs_path: files/syms/symbol_addrs.Transitions.txt
+  subalign: 4
+  ld_use_follows: False
+segments:
+  - name: main
+    type: code
+    start: 0x00
+    vram: 0xE0800000
+    overlay: True
+    symbol_name_format: Transitions_$VRAM
+    subalign: 4
+    subsegments:
+      - [0x00000, asm]
+      - [0x01DC0, bin] # data
+      - [0x0DFB0, asm] # seems to end at 1C2A4
+      - [0x1C2B0, bin] # data
+  - [0x1CF50]

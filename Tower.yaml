@@ -1,0 +1,41 @@
+name: Tower
+sha1: a3345a5b7037d1ef5376ec7e46b079f07b360100
+options:
+  basename: Tower
+  target_path: files/Tower
+  base_path: .
+  compiler: GCC
+  header_encoding: ASCII
+  platform: n64
+  asm_inc_header: ""
+  find_file_boundaries: True
+  use_legacy_include_asm: False
+  create_asm_dependencies: True
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  #mips_abi_float_regs: o32
+  do_c_func_detection: True
+  asset_path: assets/Tower
+  asm_path: asm/Tower
+  src_path: src/Tower
+  build_path: build/Tower
+  undefined_funcs_auto_path: files/syms/undefined_funcs_auto.Tower.txt
+  undefined_syms_auto_path: files/syms/undefined_syms_auto.Tower.txt
+  symbol_addrs_path: files/syms/symbol_addrs.Tower.txt
+  subalign: 4
+  ld_use_follows: False
+segments:
+  - name: main
+    type: code
+    start: 0x00
+    vram: 0xE0860000
+    overlay: True
+    symbol_name_format: Tower_$VRAM
+    subalign: 4
+    subsegments:
+      - [0x00, asm] # seems to end at 0x9634
+      - [0x9640, data]
+      - [0x97D0, asm]
+      - [0xA490, data]
+  - [0xAC50]

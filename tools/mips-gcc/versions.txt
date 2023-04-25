@@ -1,6 +1,0 @@
-cc1-2.7.2 2.7.2.SN32.3.7 Build 0001
-cc1-2.8.0 2.8.0 SN32 Build 4.0.0008
-CC1N64-sn-2.7.2.EXE GNU C 2.7.2.SN32.3.7 Build 0001 [AL 1.1, MM 40] Nintendo 64 compiled by CC
-cc1n64-cygnus-2.7.2.exe cygnus-2.7.2-970404 SN32.3.7.0006
-cc1n64-2.8.1.exe 2.8.1 SN32 BUILD 4.0.0010
-cc1n64-egcs-2.91.exe egcs-2.91.57 (egcs-1.1 release) SN32 Build a.1.0004

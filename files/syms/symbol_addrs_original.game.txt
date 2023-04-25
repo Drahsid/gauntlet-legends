@@ -1,0 +1,5 @@
+/* thanks print message */
+MEMsetflushmanager = 0xE0003878; // type:func
+ScreenInit = 0xE00073C0; // type:func
+SetScreenSize = 0xE00045A0; // type:func
+
