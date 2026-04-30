@@ -1,6 +1,7 @@
 #include "common.h"
 #include <PR/os_tlb.h>
 
+// RomFileTableHeader with 9 entries; this KMC doesn't support the zero length array extension?
 typedef struct {
     /* 0x000 */ u32 entryCount;
     /* 0x004 */ u32 unk_0x004;
@@ -9,11 +10,45 @@ typedef struct {
     /* 0x010 */ u32 unk_0x010;
     /* 0x014 */ u32 unk_0x014;
     /* 0x018 */ u32 unk_0x018;
-    /* 0x01C */ RomFileEntry entries[6];
-    /* 0x13C */ u8 unk_0x13C[0x90];
+    /* 0x01C */ RomFileEntry entries[9];
 } BootRomFileTable; /* sizeof = 0x1CC */
 
 extern u8 D_E01301C0[];
+extern u8 _Tower_ROM_START[];
+extern u8 _Tower_ROM_SIZE[];
+extern u8 _Tower_DECOMPRESSED_VRAM_START[];
+extern u8 _Tower_DECOMPRESSED_SIZE[];
+extern u8 _Tower_BSS_START[];
+extern u8 _Tower_BSS_SIZE[];
+extern u8 _Transitions_ROM_START[];
+extern u8 _Transitions_ROM_SIZE[];
+extern u8 _Transitions_DECOMPRESSED_VRAM_START[];
+extern u8 _Transitions_DECOMPRESSED_SIZE[];
+extern u8 _Transitions_BSS_START[];
+extern u8 _Transitions_BSS_SIZE[];
+extern u8 _Boss_ROM_START[];
+extern u8 _Boss_ROM_SIZE[];
+extern u8 _Boss_DECOMPRESSED_VRAM_START[];
+extern u8 _Boss_DECOMPRESSED_SIZE[];
+extern u8 _Boss_BSS_START[];
+extern u8 _Boss_BSS_SIZE[];
+extern u8 _LevelInit_ROM_START[];
+extern u8 _LevelInit_ROM_SIZE[];
+extern u8 _LevelInit_DECOMPRESSED_VRAM_START[];
+extern u8 _LevelInit_DECOMPRESSED_SIZE[];
+extern u8 _LevelInit_BSS_START[];
+extern u8 _LevelInit_BSS_SIZE[];
+extern u8 _game_ROM_START[];
+extern u8 _game_ROM_SIZE[];
+extern u8 _game_DECOMPRESSED_VRAM_START[];
+extern u8 _game_DECOMPRESSED_SIZE[];
+extern u8 _game_BSS_START[];
+extern u8 _game_BSS_SIZE[];
+extern u8 _ROMDISK_ROM_START[];
+extern u8 _ROMDISK_DECOMPRESSED_VRAM_START[];
+extern u8 _ROMDISK_DECOMPRESSED_SIZE[];
+extern u8 _ROMDISK_BSS_START[];
+extern u8 _ROMDISK_BSS_SIZE[];
 
 static u8 sBootMetadataCopyStart[0x14] = { 0 };
 
@@ -26,14 +61,16 @@ static BootRomFileTable sBootRomFileTable = {
     0,
     0,
     {
-        { "Tower", 0x2980, 0x4600, 0xE0860000, 0xB120, 0xE086AC50, 0x4D0, 0, 0 },
-        { "Transitions", 0x6F80, 0x8860, 0xE0800000, 0x251D0, 0xE081CF50, 0x8280, 0, 0 },
-        { "Boss", 0xF7E0, 0x60E0, 0xE0880000, 0xFC70, 0xE088E4F0, 0x1780, 0, 0 },
-        { "LevelInit", 0x158C0, 0x10, 0xE0840000, 0, 0xE0840000, 0, 0, 0 },
-        { "game", 0x158D0, 0x4DE10, 0xE0000400, 0x142B90, 0xE00ACEF0, 0x960A0, 0, 0 },
-        { "$ROMDISK", 0x636E0, 0x30, 0, 0, 0, 0, 0, 0 },
+        { "Tower", (u32)_Tower_ROM_START, (u32)_Tower_ROM_SIZE, (u32)_Tower_DECOMPRESSED_VRAM_START, (u32)_Tower_DECOMPRESSED_SIZE, (u32)_Tower_BSS_START, (u32)_Tower_BSS_SIZE, 0, 0 },
+        { "Transitions", (u32)_Transitions_ROM_START, (u32)_Transitions_ROM_SIZE, (u32)_Transitions_DECOMPRESSED_VRAM_START, (u32)_Transitions_DECOMPRESSED_SIZE, (u32)_Transitions_BSS_START, (u32)_Transitions_BSS_SIZE, 0, 0 },
+        { "Boss", (u32)_Boss_ROM_START, (u32)_Boss_ROM_SIZE, (u32)_Boss_DECOMPRESSED_VRAM_START, (u32)_Boss_DECOMPRESSED_SIZE, (u32)_Boss_BSS_START, (u32)_Boss_BSS_SIZE, 0, 0 },
+        { "LevelInit", (u32)_LevelInit_ROM_START, (u32)_LevelInit_ROM_SIZE, (u32)_LevelInit_DECOMPRESSED_VRAM_START, (u32)_LevelInit_DECOMPRESSED_SIZE, (u32)_LevelInit_BSS_START, (u32)_LevelInit_BSS_SIZE, 0, 0 },
+        { "game", (u32)_game_ROM_START, (u32)_game_ROM_SIZE, (u32)_game_DECOMPRESSED_VRAM_START, (u32)_game_DECOMPRESSED_SIZE, (u32)_game_BSS_START, (u32)_game_BSS_SIZE, 0, 0 },
+        { "$ROMDISK", (u32)_ROMDISK_ROM_START, (u32)sizeof(RomDiskHeader), (u32)_ROMDISK_DECOMPRESSED_VRAM_START, (u32)_ROMDISK_DECOMPRESSED_SIZE, (u32)_ROMDISK_BSS_START, (u32)_ROMDISK_BSS_SIZE, 0, 0 },
+        { "", 0, 0, 0, 0, 0, 0, 0, 0 },
+        { "", 0, 0, 0, 0, 0, 0, 0, 0 },
+        { "", 0, 0, 0, 0, 0, 0, 0, 0 },
     },
-    { 0 },
 };
 
 s32 strcmp(u8* left, u8* right) {

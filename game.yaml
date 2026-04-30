@@ -59,6 +59,7 @@ segments:
     start: 0x00
     vram: 0xE0000400
     subalign: 4
+    bss_size: 0x960A0
     subsegments: # loads of misalignment
       - [0x0000, asm]
       - [0x1F10, data]

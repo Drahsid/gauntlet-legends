@@ -60,6 +60,7 @@ segments:
     vram: 0xE0880000
     overlay: True
     subalign: 4
+    bss_size: 0x1780
     subsegments:
       - [0x0000, asm]
       - [0xDF20, data]

@@ -60,6 +60,7 @@ segments:
     vram: 0xE0860000
     overlay: True
     subalign: 4
+    bss_size: 0x4D0
     subsegments:
       - [0x00, asm] # seems to end at 0x9634
       - [0x9640, data]

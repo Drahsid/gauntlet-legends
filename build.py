@@ -154,6 +154,92 @@ def Compressed_Binary_Reference_Path(binary_name: str) -> Path:
     return Path("files") / "compressed" / f"{binary_name}.bin"
 
 
+def Boot_Romfile_Binary_Paths() -> List[Tuple[str, Path]]:
+    return [
+        ("Tower", Compressed_Binary_Path("Tower")),
+        ("Transitions", Compressed_Binary_Path("Transitions")),
+        ("Boss", Compressed_Binary_Path("Boss")),
+        ("LevelInit", Path("assets") / "boot" / "LevelInit.bin"),
+        ("game", Compressed_Binary_Path("game")),
+        ("ROMDISK", Path("assets") / "boot" / "ROMDISK.bin"),
+    ]
+
+
+def Boot_Romfile_Decompressed_Metadata() -> Dict[str, Tuple[int, int, int, int]]:
+    output: Dict[str, Tuple[int, int, int, int]] = {}
+
+    for binary_name in COMPRESSED_BINARIES:
+        config_path = Path(f"{binary_name}.yaml")
+        code_segments = [
+            segment
+            for segment in Splat_Segments(config_path)
+            if getattr(segment, "vram_start", None) is not None
+            and getattr(segment, "rom_start", None) == 0
+            and getattr(segment, "rom_end", None) is not None
+        ]
+        if len(code_segments) != 1:
+            raise SystemExit(f"Expected exactly one loadable code segment in {config_path}")
+
+        segment = code_segments[0]
+        vram_start = int(segment.vram_start)
+        loaded_size = int(segment.rom_end)
+        bss_size = int(getattr(segment, "bss_size", 0) or 0)
+        output[binary_name] = (
+            vram_start,
+            loaded_size + bss_size,
+            vram_start + loaded_size,
+            bss_size,
+        )
+
+    output["LevelInit"] = (0xE0840000, 0, 0xE0840000, 0)
+    output["ROMDISK"] = (0, 0, 0, 0)
+    return output
+
+
+def Binary_Symbol_Stem(input_path: Path) -> str:
+    return "_binary_" + "".join(
+        character if character.isalnum() or character == "_" else "_"
+        for character in Ninja_Path(input_path)
+    )
+
+
+def Boot_Romfile_Linker_Symbols() -> List[str]:
+    output = [
+        "",
+        "    /* Boot ROM file table symbols */",
+    ]
+    decompressed_metadata = Boot_Romfile_Decompressed_Metadata()
+
+    for name, input_path in Boot_Romfile_Binary_Paths():
+        symbol_stem = Binary_Symbol_Stem(input_path)
+        vram_start, decompressed_size, bss_start, bss_size = decompressed_metadata[name]
+        output.extend(
+            [
+                f"    _{name}_ROM_START = ABSOLUTE(romfile_ROM_START + ({symbol_stem}_start - romfile_DATA_START));",
+                f"    _{name}_ROM_END = ABSOLUTE(romfile_ROM_START + ({symbol_stem}_end - romfile_DATA_START));",
+                f"    _{name}_ROM_SIZE = ABSOLUTE({symbol_stem}_end - {symbol_stem}_start);",
+                f"    _{name}_DECOMPRESSED_VRAM_START = ABSOLUTE(0x{vram_start:X});",
+                f"    _{name}_DECOMPRESSED_SIZE = ABSOLUTE(0x{decompressed_size:X});",
+                f"    _{name}_BSS_START = ABSOLUTE(0x{bss_start:X});",
+                f"    _{name}_BSS_SIZE = ABSOLUTE(0x{bss_size:X});",
+            ]
+        )
+
+    output.append("")
+    return [f"{line}\n" for line in output]
+
+
+def Inject_Boot_Romfile_Linker_Symbols(linker_script_path: Path) -> None:
+    lines = linker_script_path.read_text(encoding="utf-8").splitlines(keepends=True)
+    for index, line in enumerate(lines):
+        if line.strip() == "/DISCARD/ :":
+            lines[index:index] = Boot_Romfile_Linker_Symbols()
+            linker_script_path.write_text("".join(lines), encoding="utf-8", newline="\n")
+            return
+
+    raise SystemExit(f"Could not find /DISCARD/ marker in {linker_script_path}")
+
+
 def Linker_Object_Files(binary_name: str) -> List[Path]:
     slinky_config = yaml.safe_load(Slinky_Config_Path(binary_name).read_text(encoding="utf-8"))
     output: List[Path] = []
@@ -476,6 +562,8 @@ def Generate_Linker_Script(binary_name: str) -> None:
             "'cargo install slinky-cli --version 0.5.0 --locked'."
         )
     Run([SLINKY, Ninja_Path(slinky_config_path), "-o", Ninja_Path(linker_script_path)])
+    if binary_name == "boot":
+        Inject_Boot_Romfile_Linker_Symbols(linker_script_path)
 
 
 def Generate_Linker_Scripts() -> None:
