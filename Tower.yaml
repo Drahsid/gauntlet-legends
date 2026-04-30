@@ -3,35 +3,62 @@ sha1: a3345a5b7037d1ef5376ec7e46b079f07b360100
 options:
   basename: Tower
   target_path: files/Tower
+  elf_path: build/Tower.elf
   base_path: .
-  compiler: GCC
-  header_encoding: ASCII
   platform: n64
-  asm_inc_header: ""
-  find_file_boundaries: True
-  use_legacy_include_asm: False
-  create_asm_dependencies: True
-  asm_function_macro: glabel
-  asm_jtbl_label_macro: jlabel
-  asm_data_macro: dlabel
-  #mips_abi_float_regs: o32
-  do_c_func_detection: True
-  asset_path: assets/Tower
+  compiler: KMC
+
   asm_path: asm/Tower
   src_path: src/Tower
   build_path: build/Tower
+  asset_path: assets/Tower
+  create_asm_dependencies: True
+
+  ld_script_path: Tower.ld
+  ld_dependencies: True
+
+  find_file_boundaries: True
+  header_encoding: ASCII
+
+  generate_asm_macros_files: False
+  use_legacy_include_asm: False
+  #mips_abi_float_regs: o32
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  asm_emit_size_directive: True
+  asm_inc_header: ".include \"macro.inc\"\n"
+  hasm_in_src_path: true
+
+  symbol_name_format: Tower_$VRAM_$ROM
+
+  # section_order: [".text", ".data", ".rodata", ".bss"]
+  # auto_link_sections: [".data", ".rodata", ".bss"]
+
+  symbol_addrs_path:
+    - files/syms/symbol_addrs.Tower.txt
+  reloc_addrs_path:
+    - files/syms/reloc_addrs.Tower.txt
+
   undefined_funcs_auto_path: files/syms/undefined_funcs_auto.Tower.txt
   undefined_syms_auto_path: files/syms/undefined_syms_auto.Tower.txt
-  symbol_addrs_path: files/syms/symbol_addrs.Tower.txt
+
+  # string_encoding: ASCII
+  # data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  # libultra_symbols: True
+  # hardware_regs: True
+  # gfx_ucode: # one of [f3d, f3db, f3dex, f3dexb, f3dex2]
+
   subalign: 4
-  ld_use_follows: False
 segments:
   - name: main
     type: code
     start: 0x00
     vram: 0xE0860000
     overlay: True
-    symbol_name_format: Tower_$VRAM
     subalign: 4
     subsegments:
       - [0x00, asm] # seems to end at 0x9634

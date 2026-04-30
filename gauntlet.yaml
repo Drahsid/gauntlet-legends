@@ -3,31 +3,55 @@ sha1: 0489dcce749c6a5102681d288ed0616a4b94e99d
 options:
   basename: gauntlet
   target_path: files/baserom.z64
+  elf_path: build/gauntlet.elf
   base_path: .
-  compiler: GCC
-  header_encoding: ASCII
   platform: n64
-  asm_inc_header: ""
-  find_file_boundaries: True
-  use_legacy_include_asm: False
-  create_asm_dependencies: True
-  asm_function_macro: glabel
-  asm_jtbl_label_macro: jlabel
-  asm_data_macro: dlabel
-  #mips_abi_float_regs: o32
-  do_c_func_detection: True
-  asset_path: assets/boot
+  compiler: KMC
+  extensions_path: tools/splat_ext
+
   asm_path: asm/boot
   src_path: src/boot
   build_path: build/boot
+  asset_path: assets/boot
+  create_asm_dependencies: True
+
+  ld_script_path: gauntlet.ld
+  ld_dependencies: True
+
+  find_file_boundaries: True
+  header_encoding: ASCII
+
+  generate_asm_macros_files: False
+  use_legacy_include_asm: False
+  #mips_abi_float_regs: o32
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  asm_emit_size_directive: True
+  asm_inc_header: ".include \"macro.inc\"\n"
+  hasm_in_src_path: true
+
+  symbol_name_format: $VRAM_$ROM
+
+  # section_order: [".text", ".data", ".rodata", ".bss"]
+  # auto_link_sections: [".data", ".rodata", ".bss"]
+
+  symbol_addrs_path:
+    - files/syms/symbol_addrs.boot.txt
+  reloc_addrs_path:
+    - files/syms/reloc_addrs.boot.txt
+
   undefined_funcs_auto_path: files/syms/undefined_funcs_auto.boot.txt
   undefined_syms_auto_path: files/syms/undefined_syms_auto.boot.txt
-  symbol_addrs_path: files/syms/symbol_addrs.boot.txt
-  # extensions_path: tools/splat_ext
-  # mips_abi_float_regs: o32
-  # section_order: [".text", ".data", ".rodata", ".bss"]
-  # auto_all_sections: [".data", ".rodata", ".bss"]
+
+  # string_encoding: ASCII
+  # data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  # libultra_symbols: True
   # hardware_regs: True
+  # gfx_ucode: # one of [f3d, f3db, f3dex, f3dexb, f3dex2]
 segments:
   - name: header
     type: header
@@ -42,28 +66,36 @@ segments:
     start: 0x1000
     vram: 0x80200000
     subsegments:
-      - [0x1000, hasm, ../../src/boot/asm/1000]
+      - [0x1000, hasm, asm/entrypoint]
 
   - name: main
     type: code
     start: 0x1050
     vram: 0x80200050
     follows_vram: entry
+    align: 4
+    subalign: 4
+    bss_size: 0x8020
+    symbol_name_format: $VRAM
     subsegments:
       - [0x1050, c]
-      - [0x12B0, data]
-      - [0x1490, c]
-      - [0x2740, bin]
+      - [0x12B0, .data, 1050]
+      - [0x1490, c, inflate]
+      - { start: 0x2734, type: .data, name: inflate, align: 16 }
+      - [0x28B0, hasm, asm/libultra/src/os/maptlb]
+      - { start: 0x2970, type: .rodata, name: 1050, align: 16 }
+      - { type: .bss, name: inflate, vram: 0x80201980 }
   - name: romfile
     type: code
     start: 0x2980
     follows_vram: entry
+    symbol_name_format: $VRAM_$ROM
     subsegments:
-      - [0x02980, bin, Tower] # compressed
-      - [0x06F80, bin, Transitions] # compressed
-      - [0x0F7E0, bin, Boss] # compressed
+      - { start: 0x02980, type: glz, name: Tower, decompressed_path: files/Tower, compressed_path: files/compressed/Tower.bin }
+      - { start: 0x06F80, type: glz, name: Transitions, decompressed_path: files/Transitions, compressed_path: files/compressed/Transitions.bin }
+      - { start: 0x0F7E0, type: glz, name: Boss, decompressed_path: files/Boss, compressed_path: files/compressed/Boss.bin }
       - [0x158C0, bin, LevelInit]
-      - [0x158D0, bin, game] # compressed
+      - { start: 0x158D0, type: glz, name: game, decompressed_path: files/game, compressed_path: files/compressed/game.bin }
       - [0x636E0, bin, ROMDISK]
   - [0x0FA0C80, bin, trailer] # 0xFF to the end
   - [0x1000000]

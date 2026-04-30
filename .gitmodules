@@ -4,9 +4,6 @@
 [submodule "tools/decomp-permuter"]
 	path = tools/decomp-permuter
 	url = https://github.com/simonlindholm/decomp-permuter.git
-[submodule "tools/splat"]
-	path = tools/splat
-	url = https://github.com/ethteck/splat.git
 [submodule "tools/m2c"]
 	path = tools/m2c
 	url = https://github.com/matt-kempster/m2c.git

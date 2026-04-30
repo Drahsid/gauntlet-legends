@@ -2,6 +2,8 @@
 *.o
 *.out
 *.ld
+*.d
+*.splache
 
 files/syms/*auto.txt
 files/syms/symbol_addrs.*
@@ -12,6 +14,11 @@ files/Tower
 files/Transitions
 
 asm/
+!src/boot/asm/
+!src/boot/asm/libultra/
+!src/boot/asm/libultra/src/
+!src/boot/asm/libultra/src/os/
+!src/boot/asm/libultra/src/os/*.s
 assets/
 build/
 expected/
@@ -21,6 +28,11 @@ expected/
 .vscode/
 
 tools/n64crc
+tools/gcc_kmc/
+tools/gzip-1.2.4/
+tools/gzip-1.2.4.tar.gz
+
+files/compressed/
 
 ctx_includes.c
 ctx.c

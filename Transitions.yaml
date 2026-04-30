@@ -3,39 +3,63 @@ sha1: 12b216d55c9dbfe141e76263abdfcbee5e60b4aa
 options:
   basename: Transitions
   target_path: files/Transitions
+  elf_path: build/Transitions.elf
   base_path: .
-  compiler: GCC
-  header_encoding: ASCII
   platform: n64
-  asm_inc_header: ""
-  find_file_boundaries: True
-  use_legacy_include_asm: False
-  create_asm_dependencies: True
-  asm_function_macro: glabel
-  asm_jtbl_label_macro: jlabel
-  asm_data_macro: dlabel
-  #mips_abi_float_regs: o32
-  do_c_func_detection: True
-  asset_path: assets/Transitions
+  compiler: KMC
+
   asm_path: asm/Transitions
   src_path: src/Transitions
   build_path: build/Transitions
+  asset_path: assets/Transitions
+  create_asm_dependencies: True
+
+  ld_script_path: Transitions.ld
+  ld_dependencies: True
+
+  find_file_boundaries: True
+  header_encoding: ASCII
+
+  generate_asm_macros_files: False
+  use_legacy_include_asm: False
+  #mips_abi_float_regs: o32
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  asm_emit_size_directive: True
+  asm_inc_header: ".include \"macro.inc\"\n"
+  hasm_in_src_path: true
+
+  symbol_name_format: Transitions_$VRAM_$ROM
+
+  # section_order: [".text", ".data", ".rodata", ".bss"]
+  # auto_link_sections: [".data", ".rodata", ".bss"]
+
+  symbol_addrs_path:
+    - files/syms/symbol_addrs.Transitions.txt
+  reloc_addrs_path:
+    - files/syms/reloc_addrs.Transitions.txt
+
   undefined_funcs_auto_path: files/syms/undefined_funcs_auto.Transitions.txt
   undefined_syms_auto_path: files/syms/undefined_syms_auto.Transitions.txt
-  symbol_addrs_path: files/syms/symbol_addrs.Transitions.txt
+
+  # string_encoding: ASCII
+  # data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  # libultra_symbols: True
+  # hardware_regs: True
+  # gfx_ucode: # one of [f3d, f3db, f3dex, f3dexb, f3dex2]
+
   subalign: 4
-  ld_use_follows: False
 segments:
   - name: main
     type: code
     start: 0x00
     vram: 0xE0800000
     overlay: True
-    symbol_name_format: Transitions_$VRAM
     subalign: 4
     subsegments:
       - [0x00000, asm]
-      - [0x01DC0, bin] # data
-      - [0x0DFB0, asm] # seems to end at 1C2A4
-      - [0x1C2B0, bin] # data
   - [0x1CF50]

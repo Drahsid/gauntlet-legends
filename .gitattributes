@@ -1,2 +1,7 @@
 * text=auto eol=lf
 
+*.s text
+*.c text
+*.h text
+*.inc text
+
