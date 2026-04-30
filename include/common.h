@@ -4,6 +4,8 @@
 #include <ultra64.h>
 #include "include_asm.h"
 
+#define ALIGN16 __attribute__((aligned(16)))
+
 typedef struct {
     /* 0x00 */ char headerTag[32]; // "-==ROMDISK Header - HERE I AM==-"
     /* 0x20 */ u32 unk_0x20; // size ?

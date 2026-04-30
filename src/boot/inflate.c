@@ -60,8 +60,6 @@ static u32 sBitCount;
 static s32 sHuftArenaStart;
 static s32 sHuftArenaOffset;
 static s32 sHuftArenaSize;
-static u8 sUnusedBss_8020199C[0x2004];
-static u8 sUnusedBss_802039A0[0x6000];
 
 void huft_arena_init(s32 arena_start, s32 arena_size);
 int inflate(void);
@@ -197,7 +195,7 @@ int huft_build(unsigned* bit_lengths, unsigned code_count, unsigned simple_count
                 table_level++;
                 table_bit_offset += root_lookup_bits;
 
-                table_size = (table_size = max_code_length - table_bit_offset) > (unsigned)root_lookup_bits ? root_lookup_bits : table_size;
+                table_size = (table_size = max_code_length - table_bit_offset) > (unsigned)root_lookup_bits ? (unsigned)root_lookup_bits : table_size;
                 if ((table_entry_stride = 1 << (table_index = current_bit_length - table_bit_offset)) > codes_at_current_length + 1) {
                     table_entry_stride -= codes_at_current_length + 1;
                     offset_ptr = bit_length_counts + current_bit_length;
@@ -345,7 +343,7 @@ int inflate_codes(Huft* literal_table, Huft* distance_table, int literal_bits, i
             bit_buffer >>= entry_extra_bits;
             copy_source_address = (u32)sInflateOutput + (-table_entry->value.literalValue - copy_distance);
 
-            while (--copy_length != -1) {
+            while (--copy_length != (unsigned)-1) {
                 *sInflateOutput++ = *(u8*)copy_source_address++;
             }
         }

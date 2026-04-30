@@ -10,6 +10,7 @@ The build process has the following package requirements:
 - binutils-mips-linux-gnu
 - python3
 - python3-pip
+- python3-venv
 - ninja-build
 - cargo
 - wget
@@ -17,7 +18,7 @@ The build process has the following package requirements:
 Under a Debian based distribution, you can install these with the following commands:
 ```
 sudo apt update
-sudo apt install git build-essential binutils-mips-linux-gnu python3 python3-pip ninja-build cargo wget
+sudo apt install git build-essential binutils-mips-linux-gnu python3 python3-pip python3-venv ninja-build cargo wget
 ```
 
 ### Clone the repository
@@ -29,18 +30,26 @@ git submodule update --init --recursive
 ```
 
 ### Install Python3 requirements
-Run `python3 -m pip install -r requirements.txt`
+Create and activate a virtual environment before installing the Python requirements:
+```
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Keep the virtual environment active when running `build.py` or run build commands through `.venv/bin/python`, for example `.venv/bin/python build.py initial`.
 
 ### Prepare the tools
-Run `./build.py initial`. This builds `n64crc`, downloads the KMC GCC package used by the build, and installs the `slinky-cli` executable if it is not already on your `PATH`.
+Run `python3 ./build.py initial`. This builds `n64crc`, downloads the KMC GCC package used by the build, and installs the `slinky-cli` executable if it is not already on your `PATH`.
 
 ### Prepare the base rom
 Copy over your copy of Gauntlet Legends US into the root folder of this repository. Rename the rom to baserom.z64.
 
-Next, run `./build.py setup` to extract the assets of the rom.
+Next, run `python3 ./build.py setup` to extract the assets of the rom.
 
 ## Build the rom
-Run `./build.py` to build the rom. If the build succeeds, a folder will be produced with the name `build`, inside this will be the output rom `gauntlet.z64`.
+Run `python3 ./build.py` to build the rom. If the build succeeds, a folder will be produced with the name `build`, inside this will be the output rom `gauntlet.z64`.
 
 Addtionally, if the rom matches, you should see this output:
 ```

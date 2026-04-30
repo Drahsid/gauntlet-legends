@@ -85,6 +85,7 @@ segments:
       - [0x28B0, hasm, asm/libultra/src/os/maptlb]
       - { start: 0x2970, type: .rodata, name: 1050, align: 16 }
       - { type: .bss, name: inflate, vram: 0x80201980 }
+      - { type: .bss, name: stack, vram: 0x802039A0 }
   - name: romfile
     type: code
     start: 0x2980

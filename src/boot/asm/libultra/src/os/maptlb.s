@@ -57,6 +57,6 @@ glabel osMapTLB
     nop
     nop
     nop
-.size osMapTLB, . - osMapTLB
+endlabel osMapTLB
 .set at
 .set reorder
